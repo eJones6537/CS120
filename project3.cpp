@@ -62,8 +62,7 @@ int main(){
       getline(reader, temp.at(1), '\t');
       getline(reader, temp.at(2), '\t');
       getline(reader, temp.at(3), '\t');
-      getline(reader, temp.at(4), '\t');
-      getline(reader, temp.at(5), '\n');
+      getline(reader, temp.at(4), '\n');
       
       if (temp.at(0) == "Person") {
       	Vids::Person newPerson(temp.at(1), temp.at(3), temp.at(2), temp.at(4));
