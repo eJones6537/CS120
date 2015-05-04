@@ -23,6 +23,7 @@ We hereby certify that this program is entirely our own work.
 #include "Computer.h"
 
 using namespace std;
+using namespace Vids;
 
 void display(vector<Vids::Video*> &videos) { // displays all objects in vector
 	for (int i = 0; i < videos.size(); ++i) { videos.at(i)->display(); }
@@ -65,7 +66,7 @@ int main(){
       getline(reader, temp.at(4), '\n');
       
       if (temp.at(0) == "Person") {
-      	Vids::Person newPerson(temp.at(1), temp.at(3), temp.at(2), temp.at(4));
+      	Person newPerson(temp.at(1), temp.at(3), temp.at(2), temp.at(4));
       	// FIXME: following is debugging output
       	cout << "First: " << newPerson.getFirstName() << endl;
       	cout << "Middle: " << newPerson.getMiddleName() << endl;
