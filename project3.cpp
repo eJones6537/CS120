@@ -65,7 +65,14 @@ int main(){
       getline(reader, temp.at(4), '\t');
       getline(reader, temp.at(5), '\n');
       
-      if (temp.at(0) == "Person") {}
+      if (temp.at(0) == "Person") {
+      	Vids::Person newPerson(temp.at(1), temp.at(3), temp.at(2), temp.at(4));
+      	// FIXME: following is debugging output
+      	cout << "First: " << newPerson.getFirstName() << endl;
+      	cout << "Middle: " << newPerson.getMiddleName() << endl;
+      	cout << "Last: " << newPerson.getLastName() << endl;
+      	cout << "Lineage: " << newPerson.getLineage() << endl;
+      }	// if Person
       else if (temp.at(0) == "Movie") {}
 		/* newest.SetName(temp.at(0));
 		newest.SetDirector(temp.at(1));
@@ -95,6 +102,9 @@ int main(){
 		}
 		else if (comm == "quit"){
 		 // quit program
+		}
+		else if (comm == "test"){
+			
 		}
 		else
 			cout << "Input not recognized.\n";
