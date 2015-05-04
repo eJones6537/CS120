@@ -67,11 +67,11 @@ int main(){
       
       if (temp.at(0) == "Person") {
       	Person newPerson(temp.at(1), temp.at(3), temp.at(2), temp.at(4));
-      	// FIXME: following is debugging output
+      	/* FIXME: following is debugging output
       	cout << "First: " << newPerson.getFirstName() << endl;
       	cout << "Middle: " << newPerson.getMiddleName() << endl;
       	cout << "Last: " << newPerson.getLastName() << endl;
-      	cout << "Lineage: " << newPerson.getLineage() << endl;
+      	cout << "Lineage: " << newPerson.getLineage() << endl;	*/
       }	// if Person
       else if (temp.at(0) == "Movie") {}
 		/* newest.SetName(temp.at(0));
