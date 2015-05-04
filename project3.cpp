@@ -25,17 +25,17 @@ We hereby certify that this program is entirely our own work.
 using namespace std;
 using namespace Vids;
 
-void display(vector<Vids::Video*> &videos) { // displays all objects in vector
+void display(vector<Video*> &videos) { // displays all objects in vector
 	for (int i = 0; i < videos.size(); ++i) { videos.at(i)->display(); }
 }	// display
 
 int main(){
 
-	Vids::Person newPerson;
+	Person newPerson;
 	// Movie newMovie;
 	// Television newTelevision;
-	vector<Vids::Person> persons;
-	vector<Vids::Video*> videos;
+	vector<Person> persons;
+	vector<Video*> videos;
 	string file_name = "videos.dat";
 	string comm;
 	int i = 0;
