@@ -44,7 +44,7 @@ int main(){
    cin >> file_name;
 	
 	// open database file
-   ifstream reader(file_name);
+   ifstream reader(file_name, '.c_str()');
    if (!reader) {
       cout << "Error: Cannot open input file. =[ " << endl;
    

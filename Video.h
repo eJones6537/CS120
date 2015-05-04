@@ -60,10 +60,10 @@ namespace Vids
 			string location;
 			/* Location is a catch-all field for: URL, shelf disc is on, format 
 			type, name of person it is loaned to, etc. */
-			vector<Person> directors();
+			vector<Person> directors;
 			/* David: I considered using other containers, but none of them 
 			offered any obvious benefits over the vector. */
-			vector<Person> actors();
+			vector<Person> actors;
 			Date released;
 			Date viewed;
 			/* 'viewed' can be used to answer the question: "What haven't i 
