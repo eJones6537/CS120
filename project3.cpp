@@ -29,6 +29,20 @@ void display(vector<Video*> &videos) { // displays all objects in vector
 	for (int i = 0; i < videos.size(); ++i) { videos.at(i)->display(); }
 }	// display
 
+/*
+int find(vector<Video*> &videos, Video* target) {
+
+} // returns index of search target
+*/
+
+void search(vector<Video*> &videos, Video* target) {
+
+} // should print all matches to target while searching
+
+void remove(vector<Video*> &videos) {
+
+}
+
 int main(){
 
 	Person newPerson;
@@ -88,27 +102,35 @@ int main(){
    reader.close();	// close input file
 
 	do {
-		cout << "Enter a command (help = command list): ";
-		cin >> comm; // choice of command
-
-		if (comm == "add") { // add new entry
+	cout << "Enter a command (help = command list): ";
+	cin >> comm; // choice of command
+	
+	if (comm == "help") { // help/display command list
+		cout << "COMMANDS:" << endl;
+		cout << "add = add a new entry to list" << endl;
+		cout << "remove = remove an item from the list" << endl;
+		cout << "print = print entire list of Videos" << endl;
+		cout << "quit = quit program" << endl;
+		cout << "save = save changes to list of Videos to external file" << endl;
+	}
+	else if (comm == "add") { // add new entry
 		// TODO add to videos
-		}
-		else if (comm == "help") { // help/display command list
-		// TODO
-		}
-		else if (comm == "print") { // print videos
-			display(videos); // FIXME: working?
-		}
-		else if (comm == "quit"){
-		 // quit program
-		}
-		else if (comm == "test"){
-			
-		}
-		else
-			cout << "Input not recognized.\n";
-	} while (comm != "quit");
+	}
+	else if (comm == "remove") {
+
+	}
+	else if (comm == "print") { // print videos
+		display(videos); // FIXME: working?
+	}
+	else if (comm == "save") {
+		// TODO: save list updates
+	}
+	else if (comm == "quit") {
+		break; // quit program
+	}
+	else
+		cout << "Input not recognized.\n";
+	} while (comm != "quit"); // end loop
 	// continue to allow input until user enters 'q' (quit)
    
    #ifdef _WIN32
