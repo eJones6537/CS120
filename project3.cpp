@@ -29,17 +29,57 @@ void display(vector<Video*> &videos) { // displays all objects in vector
 	for (int i = 0; i < videos.size(); ++i) { videos.at(i)->display(); }
 }	// display
 
-/*
-int find(vector<Video*> &videos, Video* target) {
+void Search(vector<Video*> &videos, string target) {
+	// note: to_string converts another type to type string
+	bool found = false;
+	int i = 0;
+	string rel; // string form of released Date
+	string view; // string form of viewed Date
+	cout << "Searching..." << endl;
+	for (i = 0; i < videos.size(); ++i) {
+		rel = DateToString(videos.at(i)->getReleased());
+		view = DateToString(videos.at(i)->getViewed());
+		// checks every field
+		if (videos.at(i)->getRuntimeMinutes.find(target) != string::npos
+			|| videos.at(i)->getName().find(target) != string::npos
+			|| videos.at(i)->getAudience() == target
+			|| videos.at(i)->getLocation == target
+			|| videos.at(i)->SearchPeople(target)
+			|| rel.find(target) != string::npos
+			|| view.find(target) != string::npos
+			|| videos.at(i)->SearchMore(target)) {
 
-} // returns index of search target
-*/
+// TODO: implement SearchMore in Video class (to derived classes) and add to if statement above
+			found = true;
+			videos.at(i)->displayAll(); // if target is found in any fields, print all information for index
+		}
+	}
+	// if no matches are found, print message
+	if (!found)
+		cout << "No matches found for your entry." << endl;
+} // print any found matches
 
-void search(vector<Video*> &videos, Video* target) {
+// changes a Date into a string, with useful formatting
+string DateToString(Date &given) {
+	string monthStr;
+	string dayStr;
+	string yearStr;
+	if (given.getMonth() < 10) // if month > 10 add zero for formating
+		monthStr = "0" + to_string(given.getMonth());
+	else // else add numbers as normal
+		monthStr = to_string(given.getMonth());
+	if (given.getDay() < 10) // if day > 10 add zero for formating
+		dayStr = "0" + to_string(given.getDay());
+	else // else add numbers as normal
+		dayStr = to_string(given.getDay());
+	if (given.getYear() < 10) // if year > 10 add zero for formating
+		yearStr = "0" + to_string(given.getYear());
+	else // else add numbers as normal
+		yearStr = to_string(given.getYear());
+	return monthStr + "/" + dayStr + "/" + yearStr;
+}
 
-} // should print all matches to target while searching
-
-void remove(vector<Video*> &videos) {
+void Remove(vector<Video*> &videos) {
 
 }
 
@@ -52,6 +92,7 @@ int main(){
 	vector<Video*> videos;
 	string file_name = "videos.dat";
 	string comm;
+	string searchEntry;
 	int i = 0;
    vector<string> temp(6);
    
@@ -107,6 +148,8 @@ int main(){
 	
 	if (comm == "help") { // help/display command list
 		cout << "COMMANDS:" << endl;
+		cout << "search help = gives format for search entries" << endl;
+		cout << "search = search document for a given entry" << endl;
 		cout << "add = add a new entry to list" << endl;
 		cout << "remove = remove an item from the list" << endl;
 		cout << "print = print entire list of Videos" << endl;
@@ -115,6 +158,21 @@ int main(){
 	}
 	else if (comm == "add") { // add new entry
 		// TODO add to videos
+	}
+	else if (comm == "search help") {
+		cout << "Fields and format of entry while searching:" << endl;
+		cout << "name - ";
+		cout << "date - mm/dd/yy (leading zeros required)";
+	}
+	else if (comm == "search") { // search vectors for entries
+		cout << "Enter something to search: ";
+		cin.ignore();
+		getline(cin, searchEntry);
+		for (i = 0; i < videos.size(); ++i) {
+			if (videos.at(i)->Search() == true) {
+				videos.at(i)->displayAll();
+			}
+		}
 	}
 	else if (comm == "remove") {
 

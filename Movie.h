@@ -61,22 +61,54 @@ public:
 		cout << "Date Released: " << released;
 		cout << "Date Viewed: " << viewed;
 	}
-
-	bool SearchBool(string selection) {
+	/*
+	bool SearchBool(string target) {
 		bool found = false;
+		string runMinStr = to_string(runtimeMinutes); // converts another type to string
+		string relMonthStr = to_string(released.getMonth());
+		string relDayStr = to_string(released.getDay());
+		string relYearStr = to_string(released.getYear());
+		string searchReleaseDate = relMonthStr + "/" + relDayStr + "/" + relYearStr; // puts date in correct form
+		// search viewed date
+		string viewMonthStr = to_string(released.getMonth());
+		string viewDayStr = to_string(released.getDay());
+		string viewYearStr = to_string(released.getYear());
+		string searchViewDate = viewMonthStr + "/" + viewDayStr + "/" + viewYearStr;
 
-		if (name.find(selection) != string::npos
-			|| directors.find(selection) != string::npos
-			|| released.find(selection) != string::npos
-			|| audience.find(selection) != string::npos
-			|| static_cast<string>(runtimeMinutes) == selection // makes more sense to search by whole runtime
-			|| location.find(selection) != string::npos) {
+		// TODO: date formated with leading zeros
+
+		// searches directors for target
+		for (int i = 0; i < directors.size(); ++i) {
+			if (directors.at(i).getFirstName().find(target) != string::npos
+				|| directors.at(i).getMiddleName().find(target) != string::npos
+				|| directors.at(i).getLastName().find(target) != string::npos
+				|| directors.at(i).getLineage().find(target) != string::npos)
+				return true;
+		}
+
+		// searches actors for target
+		for (int i = 0; i < actors.size(); ++i) {
+			if (actors.at(i).getFirstName().find(target) != string::npos
+				|| actors.at(i).getMiddleName().find(target) != string::npos
+				|| actors.at(i).getLastName().find(target) != string::npos
+				|| actors.at(i).getLineage().find(target) != string::npos)
+				return true;
+		}
+
+		// searches data members for target
+		if (name.find(target) != string::npos
+			|| audience == target // if target matches an audience rating
+			|| location.find(target) != string::npos
+			|| searchReleaseDate == target // if released date matches target
+			|| searchViewDate == target // if viewed date matches target
+			|| runMinStr == target) // compare runtime to target
 			return true;
-		}
-		else {
+
+		// if no matches are found, return false
+		else
 			return false;
-		}
 	}  // SearchBool
+	*/
 private:
 	unsigned int seriesNum;
 };

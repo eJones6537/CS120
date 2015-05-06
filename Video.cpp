@@ -27,4 +27,10 @@ namespace Vids
 		this->actors = actors;
 		this->released = released;
 	}	/* parameterized constructor */
+
+	string Video::Truncate(string str, size_t width) { // shortens output
+		if (str.length() > width)
+			return str.substr(0, width) + "...";
+		return str;
+	}	// truncate
 }

@@ -66,3 +66,7 @@ void Television::displayAll() {
 	cout << "Date Released: " << released;
 	cout << "Date Viewed: " << viewed;
 }	// displayAll
+
+bool Television::SearchMore(string target) {
+
+}
