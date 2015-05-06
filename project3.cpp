@@ -36,18 +36,19 @@ int main(){
 	// Television newTelevision;
 	vector<Person> persons;
 	vector<Video*> videos;
-	string file_name = "videos.dat";
+	string person_file_name = "Persons.dat";
+	string video_file_name = "Videos.dat";
 	string comm;
 	int i = 0;
-   vector<string> temp(6);
+   vector<string> temp(5);
    
-   cout << "What name should the File have?" << std::endl;
-   cin >> file_name;
+   //cout << "What name should the File have?" << std::endl;
+   //cin >> file_name;
 	
-	// open database file
-   ifstream reader(file_name.c_str());
+	// open Person file
+   ifstream reader(person_file_name.c_str());
    if (!reader) {
-      cout << "Error: Cannot open input file. =[ " << endl;
+      cout << "Error: Cannot open Person input file. =[ " << endl;
    
       #ifdef _WIN32
          system("pause");
@@ -73,7 +74,28 @@ int main(){
       	cout << "Last: " << newPerson.getLastName() << endl;
       	cout << "Lineage: " << newPerson.getLineage() << endl;	*/
       }	// if Person
-      else if (temp.at(0) == "Movie") {}
+   }  // while
+   
+   reader.close();	// close input file
+	
+	// open Video file
+   ifstream reader(video_file_name.c_str());
+   if (!reader) {
+      cout << "Error: Cannot open Video input file. =[ " << endl;
+   
+      #ifdef _WIN32
+         system("pause");
+      #endif
+      
+      return -1;
+      
+   }  // if
+   // each line of input fills one object
+   while (!reader.eof()) {
+      getline(reader, temp.at(0), '\t');  // type
+      if ( reader.eof() ) break;
+      
+      if (temp.at(0) == "Movie") {}
 		/* newest.SetName(temp.at(0));
 		newest.SetDirector(temp.at(1));
 		newest.SetRelease(temp.at(2));
@@ -82,7 +104,6 @@ int main(){
 		newest.SetShelf(temp.at(5)); */
 		// push_back adds the new movie to the vector of movies
 		// list.push_back(newest);
-      i++;
    }  // while
    
    reader.close();	// close input file
