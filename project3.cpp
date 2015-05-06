@@ -38,8 +38,10 @@ int main(){
 	vector<Video*> videos;
 	string person_file_name = "Persons.dat";
 	string video_file_name = "Videos.dat";
+	string movie_delimiter = "<movie>";
+	string templine;
 	string comm;
-	int i = 0;
+	unsigned int stringPos = 0;
    vector<string> temp(5);
    
    //cout << "What name should the File have?" << std::endl;
@@ -59,7 +61,7 @@ int main(){
    }  // if
    // each line of input fills one object
    while (!reader.eof()) {
-      getline(reader, temp.at(0), '\t');  // type
+      getline(reader, temp.at(0), '\t');
       if ( reader.eof() ) break;
       getline(reader, temp.at(1), '\t');
       getline(reader, temp.at(2), '\t');
@@ -92,18 +94,10 @@ int main(){
    }  // if
    // each line of input fills one object
    while (!reader.eof()) {
-      getline(reader, temp.at(0), '\t');  // type
+      getline(reader, templine);
       if ( reader.eof() ) break;
       
       if (temp.at(0) == "Movie") {}
-		/* newest.SetName(temp.at(0));
-		newest.SetDirector(temp.at(1));
-		newest.SetRelease(temp.at(2));
-		newest.SetAudience(temp.at(3));
-		newest.SetRuntime(temp.at(4));
-		newest.SetShelf(temp.at(5)); */
-		// push_back adds the new movie to the vector of movies
-		// list.push_back(newest);
    }  // while
    
    reader.close();	// close input file
