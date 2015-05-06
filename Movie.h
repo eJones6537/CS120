@@ -61,6 +61,22 @@ public:
 		cout << "Date Released: " << released;
 		cout << "Date Viewed: " << viewed;
 	}
+
+	bool SearchBool(string selection) {
+		bool found = false;
+
+		if (name.find(selection) != string::npos
+			|| directors.find(selection) != string::npos
+			|| released.find(selection) != string::npos
+			|| audience.find(selection) != string::npos
+			|| static_cast<string>(runtimeMinutes) == selection // makes more sense to search by whole runtime
+			|| location.find(selection) != string::npos) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}  // SearchBool
 private:
 	unsigned int seriesNum;
 };

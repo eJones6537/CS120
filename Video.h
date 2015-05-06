@@ -39,6 +39,7 @@ namespace Vids
 				vector<Person> actors, Date released);
 			virtual void display() = 0; // displays information for all objects of Video type
 			virtual void displayAll() = 0; // displays all information for one object
+			virtual bool searchBool();
 			string getName() const { return name; }
 			string getAudience() const { return audience; }
 			string getLocation() const { return location; }
