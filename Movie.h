@@ -61,54 +61,22 @@ public:
 		cout << "Date Released: " << released;
 		cout << "Date Viewed: " << viewed;
 	}
-	/*
-	bool SearchBool(string target) {
-		bool found = false;
-		string runMinStr = to_string(runtimeMinutes); // converts another type to string
-		string relMonthStr = to_string(released.getMonth());
-		string relDayStr = to_string(released.getDay());
-		string relYearStr = to_string(released.getYear());
-		string searchReleaseDate = relMonthStr + "/" + relDayStr + "/" + relYearStr; // puts date in correct form
-		// search viewed date
-		string viewMonthStr = to_string(released.getMonth());
-		string viewDayStr = to_string(released.getDay());
-		string viewYearStr = to_string(released.getYear());
-		string searchViewDate = viewMonthStr + "/" + viewDayStr + "/" + viewYearStr;
 
-		// TODO: date formated with leading zeros
-
-		// searches directors for target
-		for (int i = 0; i < directors.size(); ++i) {
-			if (directors.at(i).getFirstName().find(target) != string::npos
-				|| directors.at(i).getMiddleName().find(target) != string::npos
-				|| directors.at(i).getLastName().find(target) != string::npos
-				|| directors.at(i).getLineage().find(target) != string::npos)
-				return true;
-		}
-
-		// searches actors for target
-		for (int i = 0; i < actors.size(); ++i) {
-			if (actors.at(i).getFirstName().find(target) != string::npos
-				|| actors.at(i).getMiddleName().find(target) != string::npos
-				|| actors.at(i).getLastName().find(target) != string::npos
-				|| actors.at(i).getLineage().find(target) != string::npos)
-				return true;
-		}
-
-		// searches data members for target
-		if (name.find(target) != string::npos
-			|| audience == target // if target matches an audience rating
-			|| location.find(target) != string::npos
-			|| searchReleaseDate == target // if released date matches target
-			|| searchViewDate == target // if viewed date matches target
-			|| runMinStr == target) // compare runtime to target
+	bool Movie::searchTarget(string target) {
+		string ser = to_string(seriesNum);
+		if (getRuntimeMinutes().find(target) != string::npos // search string of runtimeMinutes
+			|| name.find(target) != string::npos // search name
+			|| audience == target // if audience rating is equivalent
+			|| location.find(target) != string::npos // if it matches a location
+			|| searchPeople(target) // if relates to any people
+			|| dateToString(released).find(target) != string::npos // if it matches the released date
+			|| dateToString(viewed).find(target) != string::npos
+			|| ser.find(target)) { // if it matches the viewed date
 			return true;
-
-		// if no matches are found, return false
+		}
 		else
 			return false;
-	}  // SearchBool
-	*/
+	}
 private:
 	unsigned int seriesNum;
 };

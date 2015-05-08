@@ -39,7 +39,7 @@ namespace Vids
 				vector<Person> actors, Date released);
 			virtual void display() = 0; // displays information for all objects of Video type
 			virtual void displayAll() = 0; // displays all information for one object
-			virtual bool SearchMore(string target); // TODO: used to search additonal fields in derived classes
+			virtual bool searchTarget(string target); // TODO: used to search additonal fields in derived classes
 			string getRuntimeMinutes() const { string s = to_string(runtimeMinutes); return s; } // returns in string, more utility this way
 			string getName() const { return name; }
 			string getAudience() const { return audience; }
@@ -47,7 +47,8 @@ namespace Vids
 			Date getReleased() const { return released; }
 			Date getViewed() const { return viewed; }
 			string Truncate(string str, size_t width); // shortens output
-			bool SearchPeople(string target) { // will search directors and actors for matching item
+			string dateToString(Date &given);
+			bool searchPeople(string target) { // will search directors and actors for matching item
 				for (int j = 0; j < directors.size(); ++j) {
 					if (directors.at(j).getFirstName().find(target) != string::npos
 						|| directors.at(j).getMiddleName().find(target) != string::npos
@@ -63,6 +64,8 @@ namespace Vids
 						return true;
 				}
 			} // FIXME: doesn't know what directors or actors are if not in header file
+
+			// changes a Date into a string, with useful formatting
 		protected:
 			short runtimeMinutes;
 			/* Theoretically runtime could be unsigned, but we might eventually 
