@@ -49,7 +49,7 @@ vector<int> searchVideos(vector<Video*> &videos, string target) {
 } // print any found matches
 
 // removes any matched items from the videos vector
-void Remove(vector<Video*> &videos, vector<int> matches) {
+void remove(vector<Video*> &videos, vector<int> matches) {
 	for (int i = 0; i < matches.size(); ++i) {
 		videos.erase(videos.begin() + matches.at(i)); // should erase any matched items from the vector
 	}
@@ -62,6 +62,7 @@ int main(){
 	// Television newTelevision;
 	vector<Person> persons;
 	vector<Video*> videos;
+	vector<int> matches;
 	string person_file_name = "Persons.dat";
 	string video_file_name = "Videos.dat";
 	string movie_delimiter = "<movie>";
@@ -167,7 +168,11 @@ int main(){
 		cout << "Enter something to remove: ";
 		cin.ignore();
 		getline(cin, searchEntry);
-		searchVideos(videos, searchEntry);
+		matches = searchVideos(videos, searchEntry);
+		if (matches.size() != 0) { // if items were matched, then do the following
+			remove(videos, matches);
+			cout << "Items removed." << endl;
+		}
 	}
 	else if (comm == "save") {
 		// TODO: save list updates
