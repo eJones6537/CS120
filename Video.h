@@ -39,17 +39,33 @@ namespace Vids
 				vector<Person> actors, Date released);
 			virtual void display() = 0; // displays information for all objects of Video type
 			virtual void displayAll() = 0; // displays all information for one object
+			bool searchTarget(string target) { return 0; } // TODO: used to search additonal fields in derived classes
+			string getRuntimeMinutes() const { string s = to_string(runtimeMinutes); return s; } // returns in string, more utility this way
 			string getName() const { return name; }
 			string getAudience() const { return audience; }
 			string getLocation() const { return location; }
 			Date getReleased() const { return released; }
 			Date getViewed() const { return viewed; }
-			string Truncate(string str, size_t width) { // shortens output
-				if (str.length() > width)
-					return str.substr(0, width) + "...";
-				return str;
-			}	// truncate
-			
+			string Truncate(string str, size_t width); // shortens output
+			string dateToString(Date &given);
+			bool searchPeople(string target) { // will search directors and actors for matching item
+				for (int j = 0; j < directors.size(); ++j) {
+					if (directors.at(j).getFirstName().find(target) != string::npos
+						|| directors.at(j).getMiddleName().find(target) != string::npos
+						|| directors.at(j).getLastName().find(target) != string::npos
+						|| directors.at(j).getLineage().find(target) != string::npos)
+						return true;
+				}
+				for (int i = 0; i < actors.size(); ++i) {
+					if (actors.at(i).getFirstName().find(target) != string::npos
+						|| actors.at(i).getMiddleName().find(target) != string::npos
+						|| actors.at(i).getLastName().find(target) != string::npos
+						|| actors.at(i).getLineage().find(target) != string::npos)
+						return true;
+				}
+			} // FIXME: doesn't know what directors or actors are if not in header file
+
+			// changes a Date into a string, with useful formatting
 		protected:
 			short runtimeMinutes;
 			/* Theoretically runtime could be unsigned, but we might eventually 
