@@ -39,6 +39,7 @@ int main(){
 	string person_file_name = "Persons.dat";
 	string video_file_name = "Videos.dat";
 	string movie_delimiter = "<movie>";
+	string name_delimiter = "<name>";
 	string templine;
 	string comm;
 	unsigned int stringPos = 0;
@@ -48,8 +49,8 @@ int main(){
    //cin >> file_name;
 	
 	// open Person file
-   ifstream reader(person_file_name.c_str());
-   if (!reader) {
+   ifstream personReader(person_file_name.c_str());
+   if (!personReader) {
       cout << "Error: Cannot open Person input file. =[ " << endl;
    
       #ifdef _WIN32
@@ -60,13 +61,13 @@ int main(){
       
    }  // if
    // each line of input fills one object
-   while (!reader.eof()) {
-      getline(reader, temp.at(0), '\t');
-      if ( reader.eof() ) break;
-      getline(reader, temp.at(1), '\t');
-      getline(reader, temp.at(2), '\t');
-      getline(reader, temp.at(3), '\t');
-      getline(reader, temp.at(4), '\n');
+   while (!personReader.eof()) {
+      getline(personReader, temp.at(0), '\t');
+      if ( personReader.eof() ) break;
+      getline(personReader, temp.at(1), '\t');
+      getline(personReader, temp.at(2), '\t');
+      getline(personReader, temp.at(3), '\t');
+      getline(personReader, temp.at(4), '\n');
       
       if (temp.at(0) == "Person") {
       	Person newPerson(temp.at(1), temp.at(3), temp.at(2), temp.at(4));
@@ -78,11 +79,11 @@ int main(){
       }	// if Person
    }  // while
    
-   reader.close();	// close input file
+   personReader.close();	// close input file
 	
 	// open Video file
-   ifstream reader(video_file_name.c_str());
-   if (!reader) {
+   ifstream videoReader(video_file_name.c_str());
+   if (!videoReader) {
       cout << "Error: Cannot open Video input file. =[ " << endl;
    
       #ifdef _WIN32
@@ -93,14 +94,23 @@ int main(){
       
    }  // if
    // each line of input fills one object
-   while (!reader.eof()) {
-      getline(reader, templine);
-      if ( reader.eof() ) break;
+   while (!videoReader.eof()) {
+      getline(videoReader, templine);
+      if ( videoReader.eof() ) break;
       
-      if (temp.at(0) == "Movie") {}
-   }  // while
+      while ((templine.find(movie_delimiter)) < std::string::npos) {
+    		templine.erase(0, stringPos + movie_delimiter.length());
+    		cout << "Movie" << endl;
+		}	// while movie
+		
+      while ((templine.find(name_delimiter)) < std::string::npos) {
+    		templine.erase(0, stringPos + name_delimiter.length() + 1);
+    		cout << templine << endl;
+		}	// while 
+		
+   }  // while !videoReader.eof()
    
-   reader.close();	// close input file
+   videoReader.close();	// close input file
 
 	do {
 		cout << "Enter a command (help = command list): ";
