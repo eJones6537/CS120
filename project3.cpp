@@ -29,7 +29,8 @@ void display(vector<Video*> &videos) { // displays all objects in vector
 	for (int i = 0; i < videos.size(); ++i) { videos.at(i)->display(); }
 }	// display
 
-void searchVideos(vector<Video*> &videos, string target) {
+vector<int> searchVideos(vector<Video*> &videos, string target) {
+	vector<int> returnVector; // remembers all indexes of matched search targets
 	bool found = false;
 	int i = 0;
 	cout << "Searching..." << endl;
@@ -37,36 +38,21 @@ void searchVideos(vector<Video*> &videos, string target) {
 		// checks every field
 		if (videos.at(i)->searchTarget(target)) {
 			found = true;
+			returnVector.push_back(i);
 			videos.at(i)->displayAll(); // if target is found in any fields, print all information for index
 		}	// if
 	}	// for
 	// if no matches are found, print message
 	if (!found)
 		cout << "No matches found for your entry." << endl;
+	return returnVector;
 } // print any found matches
 
-void Remove(vector<Video*> &videos) {
-
-}
-
-void searchVideos(vector<Video*> &videos, string target) {
-	bool found = false;
-	int i = 0;
-	cout << "Searching..." << endl;
-	for (i = 0; i < videos.size(); ++i) {
-		// checks every field
-		if (videos.at(i)->searchTarget(target)) {
-			found = true;
-			videos.at(i)->displayAll(); // if target is found in any fields, print all information for index
-		}
+// removes any matched items from the videos vector
+void Remove(vector<Video*> &videos, vector<int> matches) {
+	for (int i = 0; i < matches.size(); ++i) {
+		videos.erase(videos.begin() + matches.at(i)); // should erase any matched items from the vector
 	}
-	// if no matches are found, print message
-	if (!found)
-		cout << "No matches found for your entry." << endl;
-} // print any found matches
-
-void Remove(vector<Video*> &videos) {
-
 }
 
 int main(){
@@ -76,7 +62,6 @@ int main(){
 	// Television newTelevision;
 	vector<Person> persons;
 	vector<Video*> videos;
-	string searchEntry;
 	string person_file_name = "Persons.dat";
 	string video_file_name = "Videos.dat";
 	string movie_delimiter = "<movie>";
@@ -87,7 +72,6 @@ int main(){
    vector<string> temp(5);
 	string searchEntry;
 	int i = 0;
-   vector<string> temp(6);
    
    //cout << "What name should the File have?" << std::endl;
    //cin >> file_name;
@@ -180,7 +164,10 @@ int main(){
 		break; // quit program
 	}
 	else if (comm == "remove") {
-
+		cout << "Enter something to remove: ";
+		cin.ignore();
+		getline(cin, searchEntry);
+		searchVideos(videos, searchEntry);
 	}
 	else if (comm == "save") {
 		// TODO: save list updates
@@ -210,4 +197,3 @@ int main(){
 
    return 0;
 }	// main()
-//testing ability to commit to your master branch
