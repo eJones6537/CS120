@@ -39,7 +39,7 @@ namespace Vids
 				vector<Person> actors, Date released);
 			virtual void display() = 0; // displays information for all objects of Video type
 			virtual void displayAll() = 0; // displays all information for one object
-			virtual bool searchTarget(string target); // TODO: used to search additonal fields in derived classes
+			bool searchTarget(string target) { return 0; } // TODO: used to search additonal fields in derived classes
 			string getRuntimeMinutes() const { string s = to_string(runtimeMinutes); return s; } // returns in string, more utility this way
 			string getName() const { return name; }
 			string getAudience() const { return audience; }
