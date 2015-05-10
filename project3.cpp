@@ -29,7 +29,8 @@ void display(vector<Video*> &videos) { // displays all objects in vector
 	for (int i = 0; i < videos.size(); ++i) { videos.at(i)->display(); }
 }	// display
 
-void searchVideos(vector<Video*> &videos, string target) {
+vector<int> searchVideos(vector<Video*> &videos, string target) {
+	vector<int> returnVector; // remembers all indexes of matched search targets
 	bool found = false;
 	int i = 0;
 	cout << "Searching..." << endl;
@@ -37,16 +38,21 @@ void searchVideos(vector<Video*> &videos, string target) {
 		// checks every field
 		if (videos.at(i)->searchTarget(target)) {
 			found = true;
+			returnVector.push_back(i);
 			videos.at(i)->displayAll(); // if target is found in any fields, print all information for index
-		}
-	}
+		}	// if
+	}	// for
 	// if no matches are found, print message
 	if (!found)
 		cout << "No matches found for your entry." << endl;
+	return returnVector;
 } // print any found matches
 
-void Remove(vector<Video*> &videos) {
-
+// removes any matched items from the videos vector
+void remove(vector<Video*> &videos, vector<int> matches) {
+	for (int i = 0; i < matches.size(); ++i) {
+		videos.erase(videos.begin() + matches.at(i)); // should erase any matched items from the vector
+	}
 }
 
 int main(){
@@ -56,19 +62,25 @@ int main(){
 	// Television newTelevision;
 	vector<Person> persons;
 	vector<Video*> videos;
-	string file_name = "videos.dat";
+	vector<int> matches;
+	string person_file_name = "Persons.dat";
+	string video_file_name = "Videos.dat";
+	string movie_delimiter = "<movie>";
+	string name_delimiter = "<name>";
+	string templine;
 	string comm;
+	unsigned int stringPos = 0;
+   vector<string> temp(5);
 	string searchEntry;
 	int i = 0;
-   vector<string> temp(6);
    
-   cout << "What name should the File have?" << std::endl;
-   cin >> file_name;
+   //cout << "What name should the File have?" << std::endl;
+   //cin >> file_name;
 	
-	// open database file
-   ifstream reader(file_name.c_str());
-   if (!reader) {
-      cout << "Error: Cannot open input file. =[ " << endl;
+	// open Person file
+   ifstream personReader(person_file_name.c_str());
+   if (!personReader) {
+      cout << "Error: Cannot open Person input file. =[ " << endl;
    
       #ifdef _WIN32
          system("pause");
@@ -78,13 +90,13 @@ int main(){
       
    }  // if
    // each line of input fills one object
-   while (!reader.eof()) {
-      getline(reader, temp.at(0), '\t');  // type
-      if ( reader.eof() ) break;
-      getline(reader, temp.at(1), '\t');
-      getline(reader, temp.at(2), '\t');
-      getline(reader, temp.at(3), '\t');
-      getline(reader, temp.at(4), '\n');
+   while (!personReader.eof()) {
+      getline(personReader, temp.at(0), '\t');
+      if ( personReader.eof() ) break;
+      getline(personReader, temp.at(1), '\t');
+      getline(personReader, temp.at(2), '\t');
+      getline(personReader, temp.at(3), '\t');
+      getline(personReader, temp.at(4), '\n');
       
       if (temp.at(0) == "Person") {
       	Person newPerson(temp.at(1), temp.at(3), temp.at(2), temp.at(4));
@@ -94,19 +106,40 @@ int main(){
       	cout << "Last: " << newPerson.getLastName() << endl;
       	cout << "Lineage: " << newPerson.getLineage() << endl;	*/
       }	// if Person
-      else if (temp.at(0) == "Movie") {}
-		/* newest.SetName(temp.at(0));
-		newest.SetDirector(temp.at(1));
-		newest.SetRelease(temp.at(2));
-		newest.SetAudience(temp.at(3));
-		newest.SetRuntime(temp.at(4));
-		newest.SetShelf(temp.at(5)); */
-		// push_back adds the new movie to the vector of movies
-		// list.push_back(newest);
-      i++;
    }  // while
    
-   reader.close();	// close input file
+   personReader.close();	// close input file
+	
+	// open Video file
+   ifstream videoReader(video_file_name.c_str());
+   if (!videoReader) {
+      cout << "Error: Cannot open Video input file. =[ " << endl;
+   
+      #ifdef _WIN32
+         system("pause");
+      #endif
+      
+      return -1;
+      
+   }  // if
+   // each line of input fills one object
+   while (!videoReader.eof()) {
+      getline(videoReader, templine);
+      if ( videoReader.eof() ) break;
+      
+      while ((templine.find(movie_delimiter)) < std::string::npos) {
+    		templine.erase(0, stringPos + movie_delimiter.length());
+    		cout << "Movie" << endl;
+		}	// while movie
+		
+      while ((templine.find(name_delimiter)) < std::string::npos) {
+    		templine.erase(0, stringPos + name_delimiter.length() + 1);
+    		cout << templine << endl;
+		}	// while 
+		
+   }  // while !videoReader.eof()
+   
+   videoReader.close();	// close input file
 
 	do {
 	cout << "Enter a command (help = command list): ";
@@ -125,10 +158,24 @@ int main(){
 	else if (comm == "add") { // add new entry
 		// TODO add to videos
 	}
-	else if (comm == "search help") {
-		cout << "Fields and format of entry while searching:" << endl;
-		cout << "name - ";
-		cout << "date - mm/dd/yy (leading zeros required)";
+	else if (comm == "print") { // print videos
+		display(videos); // FIXME: working?
+	}
+	else if (comm == "quit") {
+		break; // quit program
+	}
+	else if (comm == "remove") {
+		cout << "Enter something to remove: ";
+		cin.ignore();
+		getline(cin, searchEntry);
+		matches = searchVideos(videos, searchEntry);
+		if (matches.size() != 0) { // if items were matched, then do the following
+			remove(videos, matches);
+			cout << "Items removed." << endl;
+		}
+	}
+	else if (comm == "save") {
+		// TODO: save list updates
 	}
 	else if (comm == "search") { // search vectors for entries
 		cout << "Enter something to search: ";
@@ -139,17 +186,10 @@ int main(){
 	else if (comm == "search description") {
 		// TODO: search Television items by episode description
 	}
-	else if (comm == "remove") {
-
-	}
-	else if (comm == "print") { // print videos
-		display(videos); // FIXME: working?
-	}
-	else if (comm == "save") {
-		// TODO: save list updates
-	}
-	else if (comm == "quit") {
-		break; // quit program
+	else if (comm == "search help") {
+		cout << "Fields and format of entry while searching:" << endl;
+		cout << "name - ";
+		cout << "date - mm/dd/yy (leading zeros required)";
 	}
 	else
 		cout << "Input not recognized.\n";
